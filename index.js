@@ -1,10 +1,10 @@
 var Buffer = require('safe-buffer').Buffer
-var Transform = require('stream').Transform
+var RD = require('readable-stream')
 var StringDecoder = require('string_decoder').StringDecoder
 var inherits = require('inherits')
 
 function CipherBase (hashMode) {
-  Transform.call(this)
+  RD.Transform.call(this)
   this.hashMode = typeof hashMode === 'string'
   if (this.hashMode) {
     this[hashMode] = this._finalOrDigest
@@ -18,7 +18,7 @@ function CipherBase (hashMode) {
   this._decoder = null
   this._encoding = null
 }
-inherits(CipherBase, Transform)
+inherits(CipherBase, RD.Transform)
 
 CipherBase.prototype.update = function (data, inputEnc, outputEnc) {
   if (typeof data === 'string') {
